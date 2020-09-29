@@ -188,7 +188,8 @@ class DjangoTelegramBot(AppConfig):
                     DjangoTelegramBot.dispatchers.append(Dispatcher(bot, None, workers=0, use_context=True))
                     hookurl = '{}/{}/{}/'.format(webhook_site, webhook_base, token)
                     max_connections = b.get('WEBHOOK_MAX_CONNECTIONS', 40)
-                    setted = bot.setWebhook(hookurl, certificate=certificate, timeout=timeout, max_connections=max_connections, allowed_updates=allowed_updates)
+                    if bot.getWebhookInfo().url != hookurl:
+                        setted = bot.setWebhook(hookurl, certificate=certificate, timeout=timeout, max_connections=max_connections, allowed_updates=allowed_updates)
                     webhook_info = bot.getWebhookInfo()
                     real_allowed = webhook_info.allowed_updates if webhook_info.allowed_updates else ["ALL"]
 
